@@ -891,6 +891,9 @@ const textNodes = [
         text: 'Begin again',
         nextText: -1
       }
+    ]
+  }
+
 
 
 
