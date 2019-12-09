@@ -894,40 +894,6 @@ const textNodes = [
     ]
   }
 
-
-
-
-/*
-{
-  id: 22,
-  text: '',
-  options: [
-    {
-      text: '',
-      nextText: NUMBER
-    },
-    {
-      text: '',
-      nextText: NUMBER
-    }
-  ]
-},
-{
-  id: 23,
-  text: '',
-  options: [
-    {
-      text: 'Continue on the path',
-      nextText: NUMBER
-    },
-    {
-      text: 'Wander into the woods',
-      nextText: NUMBER
-    }
-  ]
-},
-*/
-
 ]
 
 startGame()
