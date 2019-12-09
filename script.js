@@ -78,7 +78,7 @@ const textNodes = [
   },
   {
     id: 3,
-    text: 'Guardian of Light, after your noble journey granted you wisdom and power over the elements themselves.',
+    text: 'Guardian of Light: your righteousness has earned you powers to harness and connect with the elements themselves.',
     options: [
       {
         text: 'Begin your story',
@@ -468,7 +468,7 @@ const textNodes = [
 },
 {
   id: 27,
-  text: 'The spirits are counting on me! .....Perhaps they chose the wrong hero...',
+  text: 'The spirits are counting on me! They can\'t have chosen the wrong hero...',
   options: [
     {
       text: 'Make camp',
@@ -478,7 +478,7 @@ const textNodes = [
 },
 {
   id: 28,
-  text: 'My socks are wet. I hate this.',
+  text: 'My socks are wet. This sucks.',
   options: [
     {
       text: 'Make camp',
@@ -543,14 +543,354 @@ const textNodes = [
   //BEGIN DAY 2
   {
     id: 34,
-    text: 'TBC',
+    text: 'You wake to a warm sunrise. Another day in this forest.',
     options: [
       {
-        text: 'Start over',
-        nextText: -1
+        text: 'Seek food',
+        setState: { insight: true },
+        nextText: 35
+      },
+      {
+        text: 'Call upon your magic',
+        requiredState: (currentState) => currentState.ancients,
+        setState: { sword: true },
+        nextText: 36
+      },
+      {
+        text: 'Call to the spirits',
+        requiredState: (currentState) => currentState.guardian,
+        setState: { strong: true },
+        nextText: 37
+      },
+      {
+        text: 'Curse',
+        requiredState: (currentState) => currentState.fallen,
+        setState: { disenchanted: true },
+        nextText: 38
+      },
+      {
+        text: 'Call to Elenor',
+        requiredState: (currentState) => currentState.elenor,
+        setState: { alert: true },
+        nextText: 39
+      },
+      {
+        text: 'Make camp',
+        nextText:40
+      },
+      {
+        text: 'Venture onward',
+        nextText:41
       }
     ]
   },
+  {
+    id: 35,
+    text: 'You find a large berry bush sliced cleanly in half. Parts of its body is burnt, but there are still berries intact. You gather enough for a hearty snack.',
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 41
+      }
+    ]
+  },
+  {
+    id: 36,
+    text: 'Your eyes close. Visions of the battle again play in your mind, and something grows hot in your grasp. When you open your eyes, a sword is clasped in your hands.',
+    options: [
+      {
+        text: 'Inspect the sword',
+        nextText: 44
+      }
+    ]
+  },
+  {
+    id: 44,
+    text: 'It radiates power and makes you feel...angry.',
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 41
+      }
+    ]
+  },
+  {
+    id: 37,
+    text: 'You call to the elements and promise them protection from those that wish to harm them. You feel a little stronger.',
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 41
+      }
+    ]
+  },
+  {
+    id: 38,
+    text: 'You say a bad word. Do you feel better now?',
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 41
+      }
+    ]
+  },
+  {
+    id: 39,
+    text: 'You close your eyes and cling to the song from your dream. It\'s almost as if you can feel her presence. But she can\'t have..survived?',
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 41
+      }
+    ]
+  },
+  {
+    id: 40,
+    text: 'You begin to look for-- wait, make camp? You just woke up!',
+    options: [
+      {
+        text: 'But I\'m tired',
+        nextText: 42
+      },
+      {
+        text: 'Fine, continue on',
+        nextText: 41
+      }
+    ]
+  },
+  {
+    id: 42,
+    text: 'I will fight you',
+    options: [
+      {
+        text: 'What??',
+        nextText: 43
+      }
+    ]
+  },
+  {
+    id: 43,
+    text: 'Don\'t sass me',
+    options: [
+      {
+        text: 'Okay, okay! Continue on',
+        nextText: 41
+      }
+    ]
+  },
+//CONTINUE ON
+  {
+    id: 41,
+    text: 'The trees grow thicker and taller the farther in you traverse, and eventually, you find yourself blocked by a wall of brambles.',
+    options: [
+      {
+        text: 'Inspect the brambles',
+        nextText: 45
+      },
+      {
+        text: 'Inspect the area',
+        nextText: 46
+      },
+      {
+        text: 'Look for burn-marks',
+        requiredState: (currentState) => currentState.insight,
+        nextText: 49
+      },
+      {
+        text: 'Use the sword',
+        requiredState: (currentState) => currentState.sword,
+        nextText: 50
+      },
+      {
+        text: 'Release the elements',
+        requiredState: (currentState) => currentState.strong,
+        nextText: 51
+      },
+      {
+        text: 'Curse a little louder',
+        requiredState: (currentState) => currentState.disenchanted,
+        nextText: 52
+      },
+      {
+        text: 'Push through',
+        requiredState: (currentState) => currentState.alert,
+        nextText: 53
+      }
+    ]
+  },
+  {
+    id: 45,
+    text: 'They extend as far to your left and right as you can see, effectively blocking the path.',
+    options: [
+      {
+        text: 'Inspect the area',
+        nextText: 46
+      },
+      {
+        text: 'Look for burn-marks',
+        requiredState: (currentState) => currentState.insight,
+        nextText: 49
+      },
+      {
+        text: 'Use the sword',
+        requiredState: (currentState) => currentState.sword,
+        nextText: 50
+      },
+      {
+        text: 'Release the elements',
+        requiredState: (currentState) => currentState.strong,
+        nextText: 51
+      },
+      {
+        text: 'Curse a little louder',
+        requiredState: (currentState) => currentState.disenchanted,
+        nextText: 52
+      },
+      {
+        text: 'Push through',
+        requiredState: (currentState) => currentState.alert,
+        nextText: 53
+      }
+    ]
+  },
+  {
+    id: 46,
+    text: 'There are ancient trees all around you, with large branches that seem to bow around you.',
+    options: [
+      {
+        text: 'Use a branch',
+        setState: { branch: true },
+        nextText: 47
+      },
+      {
+        text: 'Climb a tree',
+        nextText: 48
+      },
+      {
+        text: 'Look for burn-marks',
+        requiredState: (currentState) => currentState.insight,
+        nextText: 49
+      },
+      {
+        text: 'Use the sword',
+        requiredState: (currentState) => currentState.sword,
+        nextText: 50
+      },
+      {
+        text: 'Release the elements',
+        requiredState: (currentState) => currentState.strong,
+        nextText: 51
+      },
+      {
+        text: 'Curse a little louder',
+        requiredState: (currentState) => currentState.disenchanted,
+        nextText: 52
+      },
+      {
+        text: 'Push through',
+        requiredState: (currentState) => currentState.alert,
+        nextText: 53
+      }
+    ]
+  },
+  {
+    id: 47,
+    text: 'You snap a branch from a tree and hack your way through the brambles.',
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 55
+      }
+    ]
+  },
+  {
+    id: 48,
+    text: 'You find a sturdy branch to balance yourself upon. With some effort, you make your way from branch to branch, up and over the obstacle in your way.',
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 55
+      }
+    ]
+  },
+
+  //SPECIAL OPTIONS
+  {
+    id: 49,
+    text: 'Remembering the burnt berry bush, you take a step back and inspect your surroundings. Sure enough, there is a small patch of brambles that has been similarly hacked and sliced apart. You are able to push through the opening with ease.',
+    requiredState: (currentState) => currentState.insight,
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 55
+      }
+    ]
+  },
+  {
+    id: 50,
+    text: 'You feel a sudden rush of adrenaline as the sword\'s blade glows red-hot. You take a swing, and the brambles fall, as if you were cutting wheat.',
+    requiredState: (currentState) => currentState.sword,
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 55
+      }
+    ]
+  },
+  {
+    id: 51,
+    text: 'You feel a sudden calm as you step forward, placing your hand on the obstacle in front of you. The air itself seems to fall silent as, with a creaaaaaak, the brambles shift and writhe open, creating an elegant archway around you.',
+    requiredState: (currentState) => currentState.strong,
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 55
+      },
+    ]
+  },
+  {
+    id: 52,
+    text: 'You feel a pull from your chest as you attempt to release the magic you once had inside. The world suddenly turns dark in front of your eyes, and you feel a searing pain along your arms. When your vision returns, a sword is embedded in the dirt in front of you.',
+    requiredState: (currentState) => currentState.disenchanted,
+    setState: { sword: true },
+    options: [
+      {
+        text: 'Slash the brambles',
+        nextText: 54
+      }
+    ]
+  },
+  {
+    id: 54,
+    text: 'It\'s like cutting butter. The brambles fall under the sheer weight of the sword. You feel empowered.',
+    requiredState: (currentState) => currentState.disenchanted,
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 55
+      }
+    ]
+  },
+  {
+    id: 53,
+    text: 'You feel her presence! You feel a cold panic rising in your chest as you begin to dig, dig through the weeds with a growing desperation to see the only key to your past. Through, and through, until your hands are rubbed raw, but you finally carve your way through.',
+    requiredState: (currentState) => currentState.alert,
+    options: [
+      {
+        text: 'Continue on',
+        nextText: 55
+      }
+    ]
+  },
+  //CONTINUE ON
+  {
+    id: 55,
+    text: 'TBC',
+    options: [
+      {
+        text: 'Begin again',
+        nextText: -1
+      }
 
 
 
@@ -560,11 +900,11 @@ const textNodes = [
   text: '',
   options: [
     {
-      text: 'Continue on the path',
+      text: '',
       nextText: NUMBER
     },
     {
-      text: 'Wander into the woods',
+      text: '',
       nextText: NUMBER
     }
   ]
