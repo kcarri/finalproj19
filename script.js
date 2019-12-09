@@ -543,10 +543,10 @@ const textNodes = [
   //BEGIN DAY 2
   {
     id: 34,
-    text: 'Placebo',
+    text: 'TBC',
     options: [
       {
-        text: 'Wake up, adventurer',
+        text: 'Start over',
         nextText: -1
       }
     ]
