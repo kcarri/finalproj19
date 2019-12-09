@@ -2,49 +2,33 @@
 <html lang="en-US">
 
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <title>Kat's Corner</title>
-      <link rel="stylesheet" type="text/css" href="style.css" />
-   <style>
-       canvas {
-         display: block;
-       }
-   </style>
-
+   <link rel="stylesheet" type="text/css" href="style.css" />
+   <script defer src="script.js"></script>
    <link rel="icon"
       type="image/png"
       href="images/kc.png">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body onload="askName()">
-  <script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
-  <script type="text/javascript" src="script.js"</script>
-  <script type="text/javascript" src="bugs.js"</script>
+<body>
+  <div class="container">
+    <div id="text">Story text here</div>
+    <div id="option-buttons" class="btnGrid">
+      <button class="btn">Option 1</button>
+      <button class="btn">Option 2</button>
+      <button class="btn">Option 3</button>
+      <button class="btn">Option 4</button>
+    </div>
+  </div>
 
-  <header class="container"><h1>Final Project</h1>
 
-<h1 class="ml1">
-<span class="text-wrapper">
-<span class="line line1"></span>
-<span class="letters">Welcome to my page</span>
-<span class="line line2"></span>
-</span>
-</h1>
-        <p id="showName"></p>
-  </header>
-
-  <section>
-    <div align="center"><br><img src="images/bugs.png" width="200">
-      <img src="images/fudd.png" width="200">
-  </section>
-
-  <footer>
+  <br><br><footer>
+    <div class="bottom">
+    </div>
   </footer>
-
-
-
 
 </body>
 </html>
