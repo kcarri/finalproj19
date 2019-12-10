@@ -39,6 +39,30 @@ function selectOption(option) {
   showTextNode(nextTextNodeId)
 }
 
+var i = 0;
+var txt = 'Welcome to the forest';
+var speed = 120;
+
+function typeWriter() {
+  if (i < txt.length) {
+    document.getElementById("typed").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
+
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("ajaxed").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "flavor.txt", true);
+  xhttp.send();
+}
+
 const textNodes = [
   {
     id: 1,
@@ -46,22 +70,22 @@ const textNodes = [
     options: [
       {
         text: 'Wake of the Ancients',
-        setState: { ancients: true },
+        setState: { ancients: true, nosword: true },
         nextText: 2
       },
       {
         text: 'Guardian of Light',
-        setState: { guardian: true },
+        setState: { guardian: true, nosword: true },
         nextText: 3
       },
       {
         text: 'The Fallen',
-        setState: { fallen: true },
+        setState: { fallen: true, nosword: true },
         nextText: 4
       },
       {
         text: 'Elenor\'s Bane',
-        setState: { elenor: true },
+        setState: { elenor: true, nosword: true },
         nextText: 5
       }
     ]
@@ -553,7 +577,7 @@ const textNodes = [
       {
         text: 'Call upon your magic',
         requiredState: (currentState) => currentState.ancients,
-        setState: { sword: true },
+        setState: { sword: true, nosword: false },
         nextText: 36
       },
       {
@@ -755,7 +779,7 @@ const textNodes = [
   },
   {
     id: 46,
-    text: 'There are ancient trees all around you, with large branches that seem to bow around you.',
+    text: 'There are ancient trees all around you, with large branches that seem to bow around your path.',
     options: [
       {
         text: 'Use a branch',
@@ -852,7 +876,7 @@ const textNodes = [
     id: 52,
     text: 'You feel a pull from your chest as you attempt to release the magic you once had inside. The world suddenly turns dark in front of your eyes, and you feel a searing pain along your arms. When your vision returns, a sword is embedded in the dirt in front of you.',
     requiredState: (currentState) => currentState.disenchanted,
-    setState: { sword: true },
+    setState: { sword: true, nosword: false },
     options: [
       {
         text: 'Slash the brambles',
@@ -885,15 +909,645 @@ const textNodes = [
   //CONTINUE ON
   {
     id: 55,
-    text: 'TBC',
+    text: 'You pass through the brambles to discover a clearing. Ahead of you, two figures stand opposite each other.',
     options: [
       {
-        text: 'Begin again',
+        text: 'Look down',
+        requiredState: (currentState) => currentState.nosword,
+        nextText: 56
+      },
+      {
+        text: 'Inspect the figures',
+        requiredState: (currentState) => currentState.sword,
+        nextText: 57
+      }
+    ]
+  },
+  {
+    id: 56,
+    text: 'A sword is nestled in the leaves in front of you. Its blade shines a brilliant red in the light. You gather that this is the sword you were sent to retrieve. As you pick it up, the sword grows warm to the touch. You feel much stronger.',
+    setState: { sword: true, nosword: false },
+    options: [
+      {
+        text: 'Inspect the figures',
+        nextText: 57
+      }
+    ]
+  },
+  //INSPECT THE FIGURES
+  {
+    id: 57,
+    text: 'They are a soldier and a tree nymph, frozen where they stand. The former holds their hand in the air, once wielding the sword you now hold, while the latter seems to have been furiously casting a spell.',
+    options: [
+      {
+        text: 'Inspect the surroundings',
+        nextText: 58
+      },
+      {
+        text: 'Inspect the pair',
+        nextText: 59
+      },
+      {
+        text: 'Speak to the soldier',
+        requiredState: (currentState) => currentState.ancients,
+        nextText: 60
+      },
+      {
+        text: 'Call the elements',
+        requiredState: (currentState) => currentState.guardian,
+        nextText: 62
+      },
+      {
+        text: 'Channel your sword',
+        requiredState: (currentState) => currentState.fallen,
+        nextText: 66
+      },
+      {
+        text: 'Inspect the soldier',
+        requiredState: (currentState) => currentState.elenor,
+        nextText: 71
+      }
+    ]
+  },
+  //INSPECT THE SURROUNDINGS
+  {
+    id: 58,
+    text: 'Even without focusing your senses, you can feel an overwhelming aura of magic. It emanates from the tree nymph; her heart, though still, glows softly through her chest. She must be the reason for this forest\'s incredible magic. You were sent here for her.',
+    options: [
+      {
+        text: 'Inspect the pair',
+        nextText: 59
+      },
+      {
+        text: 'Speak to the soldier',
+        requiredState: (currentState) => currentState.ancients,
+        nextText: 60
+      },
+      {
+        text: 'Call the elements',
+        requiredState: (currentState) => currentState.guardian,
+        nextText: 62
+      },
+      {
+        text: 'Channel your sword',
+        requiredState: (currentState) => currentState.fallen,
+        nextText: 66
+      },
+      {
+        text: 'Inspect the soldier',
+        requiredState: (currentState) => currentState.elenor,
+        nextText: 71
+      }
+    ]
+  },
+  {
+    id: 59,
+    text: 'The soldier is lunging forward, mid-strike. A crest on her armor symbolizes the army that had sent you on this quest. The nymph has one eye open, glassy and frozen; the other is hidden behind maple leaves that shroud most of her body. The pair are connected by a single strand of vines.',
+    options: [
+      {
+        text: 'Inspect the surroundings',
+        nextText: 58
+      },
+      {
+        text: 'Speak to the soldier',
+        requiredState: (currentState) => currentState.ancients,
+        nextText: 60
+      },
+      {
+        text: 'Speak to the nymph',
+        requiredState: (currentState) => currentState.ancients,
+        nextText: 61
+      },
+      {
+        text: 'Call the elements',
+        requiredState: (currentState) => currentState.guardian,
+        nextText: 62
+      },
+      {
+        text: 'Channel your sword',
+        requiredState: (currentState) => currentState.fallen,
+        nextText: 66
+      },
+      {
+        text: 'Inspect the soldier',
+        requiredState: (currentState) => currentState.elenor,
+        nextText: 71
+      }
+    ]
+  },
+  {
+    id: 60,
+    text: 'You send your magic and feel the soul of the soldier. She is screaming. "She holds the magic! Everything in this wood is hers. We will be overtaken if she is not stopped!"',
+    options: [
+      {
+        text: 'Inspect the surroundings',
+        nextText: 58
+      },
+      {
+        text: 'Inspect the pair',
+        nextText: 59
+      },
+      {
+        text: 'Speak to the nymph',
+        requiredState: (currentState) => currentState.ancients,
+        nextText: 61
+      },
+      {
+        text: 'Stab the soldier',
+        nextText: 94
+      }
+    ]
+  },
+  {
+    id: 61,
+    text: 'ɭєคשє Շђเร קɭคςє ,,,  ץ๏ย кภ๏ฬ ภ๏Շ Շђє ๓คﻮเς ץ๏ย ฬเєɭ๔',
+    options: [
+      {
+        text: 'Inspect the surroundings',
+        nextText: 58
+      },
+      {
+        text: 'Inspect the pair',
+        nextText: 59
+      },
+      {
+        text: 'Speak to the soldier',
+        requiredState: (currentState) => currentState.ancients,
+        nextText: 60
+      },
+      {
+        text: 'Stab the nymph',
+        nextText: 77
+      }
+    ]
+  },
+  //CALL THE ELEMENTS
+  {
+    id: 62,
+    text: 'You feel flames trapped inside the sword. The wind carries a voice.',
+    options: [
+      {
+        text: 'Listen',
+        nextText: 58
+      }
+    ]
+  },
+  {
+    id: 63,
+    text: 'Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є Շђเร เร ๏ยг ђ๏๓є',
+    options: [
+      {
+        text: 'Break the sword',
+        nextText: 64
+      },
+      {
+        text: 'Stab the soldier',
+        nextText: 94
+      },
+      {
+        text: 'Stab the nymph',
+        nextText: 77
+      },
+      {
+        text: 'Cut the vines',
+        nextText: 96
+      }
+    ]
+  },
+  {
+    id: 64,
+    text: 'Channeling your magicks together, you release the fury of fire until the sword\'s metal shrivels and twists open on the ground. The foliage catches fire, and the forest around you suddenly begins to blaze.',
+    setState: { sword: false, nosword: true },
+    options: [
+      {
+        text: 'Grab the sword remains',
+        setState: { remains: true },
+        nextText: 65
+      },
+      {
+        text: 'Run!',
+        nextText: 78
+      }
+    ]
+  },
+  {
+    id: 65,
+    text: 'You grab what remains of the sword and flee. With this, at least, you can have something to show the Quest Warden.',
+    options: [
+      {
+        text: 'Leave the forest',
+        nextText: 78
+      }
+    ]
+  },
+
+  //CHANNEL YOUR SWORD
+  {
+    id: 66,
+    text: 'You feel the power of this sword well up inside you. Oh, how you\'ve missed this feeling! It\'s so strong! It\'s...it\'s too strong...',
+    options: [
+      {
+        text: 'Scream',
+        nextText: 67
+      }
+    ]
+  },
+  {
+    id: 67,
+    text: 'You cannot control your body. The sword takes all of your strength to hold as it raises itself up...up...',
+    options: [
+      {
+        text: 'Scream',
+        nextText: 68
+      }
+    ]
+  },
+  {
+    id: 68,
+    text: 'It swings into the heart of the nymph. You feel its anger turn into flames inside of her chest. Around you, the trees begin to alight in a ghastly fire.',
+    options: [
+      {
+        text: 'Scream',
+        nextText: 69
+      }
+    ]
+  },
+  {
+    id: 69,
+    text: 'ฬђคՇ ђคשє ץ๏ย ๔๏ภє',
+    options: [
+      {
+        text: 'Scream',
+        nextText: 70
+      }
+    ]
+  },
+  {
+    id: 70,
+    text: 'เ Շђ๏ยﻮђՇ קє๏קɭє ς๏ยɭ๔ ςђคภﻮє',
+    options: [
+      {
+        text: 'Run',
+        nextText: 78
+      }
+    ]
+  },
+
+  //LOOK AT ELENOR
+  {
+    id: 71,
+    text: 'She is your wife. Your Elenor. The sword that rested in her hands is now in yours. Her eyes are wide, not in hatred, but in surprise. And..sorrow?',
+    options: [
+      {
+        text: 'Look at the nymph',
+        nextText: 72
+      }
+    ]
+  },
+  {
+    id: 72,
+    text: 'She holds inconceivable power; the will of this forest glows from inside her chest. You are filled with righteous anger. The sword burns in your hand.',
+    options: [
+      {
+        text: 'Slay the nymph',
+        nextText: 77
+      },
+      {
+        text: 'Drop the sword',
+        nextText: 73
+      }
+    ]
+  },
+  {
+    id: 73,
+    text: 'You...can\'t.',
+    options: [
+      {
+        text: 'Slay the nymph',
+        nextText: 77
+      },
+      {
+        text: 'Drop the sword',
+        nextText: 74
+      }
+    ]
+  },
+  {
+    id: 74,
+    text: 'You...can\'t.',
+    options: [
+      {
+        text: 'Slay the nymph',
+        nextText: 77
+      },
+      {
+        text: 'Drop the sword',
+        nextText: 75
+      }
+    ]
+  },
+  {
+    id: 75,
+    text: 'ş̵̬̰̬̥̰̫͍̍̑̾̚ľ̴̨̢̳̥̝͋̓̍̊̓̐͘a̸͍̼̦̘͔̟̼̮̥̻͐͒ỵ̴͚̤̬͕̝̦͋̒̄̈́̒̽̀̕̕̚ͅ ̶͙͉͚̞̝̟͋͒͂̊̅͝͝ͅt̵͉̯̫̀̾͜͝h̶̛̩̦̗̻̜̰̊̀ę̸̢̛̥̩̲̰̪̞̞̆̄̅͒͂̽̓̚ ̴̟̍͂̄̽̔͑̌̓͛n̴̛̝̹͝y̵̤̦̽͒͆͊m̶̧̞̀̉̎́͌̓́̏͠͝p̶̙̾͐̎̉h̴̡̧̗̙̘̦͕̱͋̆̑͒̋͗͑̍̋̚',
+    options: [
+      {
+        text: 'ş̵̬̰̬̥̰̫͍̍̑̾̚ľ̴̨̢̳̥̝͋̓̍̊̓̐͘a̸͍̼̦̘͔̟̼̮̥̻͐͒ỵ̴͚̤̬͕̝̦͋̒̄̈́̒̽̀̕̕̚ͅ ̶͙͉͚̞̝̟͋͒͂̊̅͝͝ͅt̵͉̯̫̀̾͜͝h̶̛̩̦̗̻̜̰̊̀ę̸̢̛̥̩̲̰̪̞̞̆̄̅͒͂̽̓̚ ̴̟̍͂̄̽̔͑̌̓͛n̴̛̝̹͝y̵̤̦̽͒͆͊m̶̧̞̀̉̎́͌̓́̏͠͝p̶̙̾͐̎̉h̴̡̧̗̙̘̦͕̱͋̆̑͒̋͗͑̍̋̚',
+        nextText: 77
+      },
+      {
+        text: 'ş̵̬̰̬̥̰̫͍̍̑̾̚ľ̴̨̢̳̥̝͋̓̍̊̓̐͘a̸͍̼̦̘͔̟̼̮̥̻͐͒ỵ̴͚̤̬͕̝̦͋̒̄̈́̒̽̀̕̕̚ͅ ̶͙͉͚̞̝̟͋͒͂̊̅͝͝ͅt̵͉̯̫̀̾͜͝h̶̛̩̦̗̻̜̰̊̀ę̸̢̛̥̩̲̰̪̞̞̆̄̅͒͂̽̓̚ ̴̟̍͂̄̽̔͑̌̓͛n̴̛̝̹͝y̵̤̦̽͒͆͊m̶̧̞̀̉̎́͌̓́̏͠͝p̶̙̾͐̎̉h̴̡̧̗̙̘̦͕̱͋̆̑͒̋͗͑̍̋̚',
+        nextText: 77
+      },
+      {
+        text: 'ş̵̬̰̬̥̰̫͍̍̑̾̚ľ̴̨̢̳̥̝͋̓̍̊̓̐͘a̸͍̼̦̘͔̟̼̮̥̻͐͒ỵ̴͚̤̬͕̝̦͋̒̄̈́̒̽̀̕̕̚ͅ ̶͙͉͚̞̝̟͋͒͂̊̅͝͝ͅt̵͉̯̫̀̾͜͝h̶̛̩̦̗̻̜̰̊̀ę̸̢̛̥̩̲̰̪̞̞̆̄̅͒͂̽̓̚ ̴̟̍͂̄̽̔͑̌̓͛n̴̛̝̹͝y̵̤̦̽͒͆͊m̶̧̞̀̉̎́͌̓́̏͠͝p̶̙̾͐̎̉h̴̡̧̗̙̘̦͕̱͋̆̑͒̋͗͑̍̋̚',
+        nextText: 77
+      },
+      {
+        text: 'Drop the sword',
+        nextText: 76
+      }
+    ]
+  },
+  {
+    id: 76,
+    text: 'You fall to your knees, the sword clattering to the ground beside you. It sizzles in the grass before falling silent.',
+    options: [
+      {
+        text: 'Rest',
+        nextText: 86
+      }
+    ]
+  },
+  //SLAY THE NYMPH
+  {
+    id: 77,
+    text: 'The sword plunges into the glowing heart of the tree nymph. Her one eye glows a vivid red as it turns to look into yours. Around you, the trees alight in a ghastly flame.',
+    options: [
+      {
+        text: 'Run.',
+        nextText: 78
+      }
+    ]
+  },
+  //RUN AFTER FOREST FIRE
+  {
+    id: 78,
+    text: 'You run. The fire licks at your heels, scarring your ankles as it obliterates the forest behind you. You keep running. The brambles melt away; the snake lies dead on the ground; the bog is silent.',
+    options: [
+      {
+        text: 'Run',
+        nextText: 79
+      }
+    ]
+  },
+  {
+    id: 79,
+    text: 'The air is hot and hard to breathe. For a moment you consider stopping to rest, to succumb to the fumes. But you see the exit. Just....just up ahead...',
+    options: [
+      {
+        text: 'Run',
+        nextText: 80
+      }
+    ]
+  },
+  {
+    id: 80,
+    text: 'The air is hot and hard to breathe. For a moment you consider stopping to rest, to succumb to the fumes. But you see the exit. Just....just up ahead...',
+    options: [
+      {
+        text: 'Run',
+        requiredState: (currentState) => currentState.ancients,
+        nextText: 81
+      },
+      {
+        text: 'Run',
+        requiredState: (currentState) => currentState.guardian,
+        nextText: 82
+      },
+      {
+        text: 'Run',
+        requiredState: (currentState) => currentState.fallen,
+        nextText: 83
+      },
+      {
+        text: 'Run',
+        requiredState: (currentState) => currentState.elenor,
+        nextText: 84
+      }
+    ]
+  },
+  {
+    id: 81,
+    text: 'You feel the souls of a thousand lives past releasing into the air as you leave the forest. Their pain leaves their faces as the roots that bind them burn into ash. As you leave the forest, you hear an echo of a familiar song.',
+    options: [
+      {
+        text: 'End.',
+        nextText: 85
+      }
+    ]
+  },
+  {
+    id: 82,
+    text: 'The fire tears away at the screaming brush as you leave it all behind. The wind has ceased its song...',
+    options: [
+      {
+        text: 'End.',
+        nextText: 85
+      }
+    ]
+  },
+  {
+    id: 83,
+    text: 'Another human soldier, fallen. You clasp the sword tightly in your palms as you feel its magic coarse through your veins. They were fools to trust us, and soon...soon they will be made to regret it.',
+    options: [
+      {
+        text: 'End.',
+        nextText: 85
+      }
+    ]
+  },
+  {
+    id: 84,
+    text: 'There is a sudden song that rings through the air, and freezes you in your step, only moments away from the exit. It is her, her voice, reverberating through the wood in a haunting melody. You cannot leave her. Your Elenor. Your Elenor. You cannot leave.',
+    options: [
+      {
+        text: 'End.',
+        nextText: 85
+      }
+    ]
+  },
+  {
+    id: 86,
+    text: '"My love, do not falter. You must remember yourself. Remember yourself..." You feel flashes of memory shoot like lightning through your fingertips.',
+    options: [
+      {
+        text: 'Cut the vines.',
+        nextText: 87
+      }
+    ]
+  },
+  {
+    id: 87,
+    text: '"Koa." You turn to the vine connecting the two figures, and grasp it between your hand. Your touch superheats the vine, and it explodes into a thousand fibers.',
+    options: [
+      {
+        text: 'They were only memories',
+        nextText: 88
+      }
+    ]
+  },
+  {
+    id: 88,
+    text: 'These were your memories. Are you going to let them go?',
+    options: [
+      {
+        text: 'I cannot hold on forever.',
+        nextText: 89
+      }
+    ]
+  },
+  {
+    id: 89,
+    text: 'Your world begins to fade.',
+    options: [
+      {
+        text: 'I remember.',
+        nextText: 90
+      }
+    ]
+  },
+  {
+    id: 90,
+    text: 'I remember this forest. We were married here. There was only the one tree, then.',
+    options: [
+      {
+        text: 'We made this forest, didn\'t we?',
+        nextText: 91
+      }
+    ]
+  },
+  {
+    id: 91,
+    text: 'It grew before our very eyes. Like magic. The love we had for each other was mirrored by the life of these woods.',
+    options: [
+      {
+        text: 'You gave your life for it.',
+        nextText: 92
+      }
+    ]
+  },
+  {
+    id: 92,
+    text: 'No, not your life. Just your memory.',
+    options: [
+      {
+        text: 'My memory?',
+        nextText: 93
+      }
+    ]
+  },
+  {
+    id: 93,
+    text: 'I am sorry, my love.',
+    options: [
+      {
+        text: 'Elenor',
+        nextText: 85
+      }
+    ]
+  },
+
+  //STAB THE SOLDIER
+  {
+    id: 94,
+    text: 'Your sword finds purchase in the soldier\'s chest. The noise of the forest falls to silence, until there is...nothing. The soldier does not bleed. Her screams were frozen when the magic of this forest took her. There is no response.',
+    options: [
+      {
+        text: 'Leave',
+        nextText: 95
+      }
+    ]
+  },
+  {
+    id: 95,
+    text: 'You leave the forest, the sword left embedded in the heart of the soldier. You have nothing to show your people, and as such, receive no reward. Perhaps it is for the best.',
+    options: [
+      {
+        text: 'End',
+        nextText: 85
+      }
+    ]
+  },
+
+  //CUT THE VINES
+  {
+    id: 96,
+    text: 'You raise the sword above your head and deftly swing it through the vines connecting the two beings. The wind quiets.',
+    options: [
+      {
+        text: 'Break the sword',
+        nextText: 64
+      },
+      {
+        text: 'Stab the soldier',
+        nextText: 94
+      },
+      {
+        text: 'Stab the nymph',
+        nextText: 77
+      },
+      {
+        text: 'Listen',
+        nextText: 97
+      }
+    ]
+  },
+  {
+    id: 97,
+    text: 'The air is calm, all except for the birdsong. It is familiar.',
+    options: [
+      {
+        text: 'Break the sword',
+        nextText: 64
+      },
+      {
+        text: 'Stab the soldier',
+        nextText: 94
+      },
+      {
+        text: 'Stab the nymph',
+        nextText: 77
+      },
+      {
+        text: 'Leave the forest',
+        nextText: 98
+      }
+    ]
+  },
+  {
+    id: 98,
+    text: 'You are left with an uncertainty as you leave the forest. Your people reward you for the retrieval of the sword, but there is something more that must be done. You find yourself unable to occupy your mind with much else.',
+    options: [
+      {
+        text: 'End',
+        nextText: 85
+      }
+    ]
+  },
+
+  //END
+  {
+    id: 85,
+    text: 'You find yourself at the edge of a mysterious forest. Your task...to find the source of its magic, and retrieve an enchanted sword.',
+    options: [
+      {
+        text: 'Begin your journey.',
         nextText: -1
       }
     ]
-  }
+  },
 
 ]
 
 startGame()
+typeWriter()
